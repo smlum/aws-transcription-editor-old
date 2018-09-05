@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Transcription Buddy</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style media="screen">
+    .l95 {
+      color: orange
+    }
+
+    .l90 {
+      color: red
+    }
+
+    .speaker-header {
+      font-weight: bold;
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="save.js"></script>
+  <script src="display.js"></script>
+  <script src="audio-control.js"></script>
+
+  <script type="text/javascript">
+    // create autosave from: https://code.tutsplus.com/tutorials/create-an-inline-text-editor-with-the-contenteditable-attribute--cms-25655
+    // create info box like this: https://codepen.io/Shokeen/pen/XXggZr
+    // add autoscroll playback option
+  </script>
+
+  <script type="text/javascript">
+    // copy to clipboard
+    function CopyToClipboard (containerid) {
+      // Create a new textarea element and give it id='temp_element'
+      var textarea = document.createElement('textarea')
+      textarea.id = 'temp_element'
+      // Optional step to make less noise on the page, if any!
+      textarea.style.height = 0
+      // Now append it to your page somewhere, I chose <body>
+      document.body.appendChild(textarea)
+      // Give our textarea a value of whatever inside the div of id=containerid
+      textarea.value = document.getElementById(containerid).innerText
+      // Now copy whatever inside the textarea to clipboard
+      var selector = document.querySelector('#temp_element')
+      selector.select()
+      document.execCommand('copy')
+      // Remove the textarea
+      document.body.removeChild(textarea)
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <!-- title -->
+  <div class="speaker-transcript">
+    <h1>AWS Transcription Buddy</h1>
+    <!-- <button type="button" name="button" class="toggle-speaker">Toggle</button> -->
+  </div>
+
+  <!-- audio box -->
+  <div class="">
+    <audio id="audio" controls>
+      <source src="https://s3.us-east-2.amazonaws.com/geoaudio/Podcast_edited.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <!-- copy to clipboard button -->
+  <button onClick="CopyToClipboard('content')">Copy to clipboard</button>
+
+  <!-- transcript content -->
+  <div id="content" contenteditable="true">
+    <div class="speaker">
+    </div>
+  </div>
+
+<!-- does this do anything?
+  <div class="text-transcript">
+    <h1>Text Transcript</h1>
+    <div class="raw">
+    </div>
+  </div>
+-->
+</body>
+
+</html>
