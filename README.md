@@ -14,6 +14,7 @@ These instructions will guide you through using the Amazon Transcribe service an
 
 1. Have an [Amazon Web Servives](https://aws.amazon.com/) account 
 2. Have [S3](https://aws.amazon.com/s3/) and [Transcribe](https://aws.amazon.com/transcribe/) set up on your AWS account
+3. Install [http-server](https://www.npmjs.com/package/http-server) or have access to another server
 
 ### Transcribing with AWS
 
@@ -31,11 +32,30 @@ These instructions will guide you through using the Amazon Transcribe service an
 3. Fill out form with name, audio url (from the S3 file), adding custom volcabulary, set speaker identification to 'Enabled', and data source to 'Amazon defalut bucket'
 4. Once the job is finished download the transcription (which shold be json file)
 
-#### Installing the 
-Clone the repository:
-'''
+#### Installing the app
+1. Clone the repository:
+```
 git clone https://gitlab.com/samfredlumley/transcription-buddy
-'''
+```
+2. In the "json" folder copy the downloaded json file (suggested name "transcript.json")
+3. Launch the app on a server. E.g. from the folder containing the project directory run
+```
+cd transcription-app
+http-server
+```
+You should now be able to access the app from your browser 
+
+#### Using the app
+* Enter the url for your audio and the filename for your json file
+* "Load transcript" visualises the json. You can make edits to this text. Changes are autosaved locally but it is recommended to copy and paste out your work regularly.
+* You can control the audio while writing using keyboard shortcuts:
+
+| Task        | Shortcut           |
+| ------------- |:-------------:|
+| go back 5s      | ctrl + , |
+| skip 5s     | ctrl + .      |
+| slow down | ctrl + shift + ,      |
+| speed up | ctrl + shift + .      |
 
 ## Extras
 
