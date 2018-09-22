@@ -35,7 +35,7 @@ These instructions will guide you through using the Amazon Transcribe service an
 #### Installing the app
 1. Clone the repository:
 ```
-git clone https://gitlab.com/samfredlumley/transcription-buddy
+git clone https://github.com/samFredLumley/transcription-buddy
 ```
 2. In the "json" folder copy the downloaded json file (suggested name "transcript.json")
 3. Launch the app on a server. E.g. from the folder containing the project directory run
