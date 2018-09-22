@@ -40,7 +40,7 @@ git clone https://github.com/samFredLumley/transcription-buddy
 2. In the "json" folder copy the downloaded json file (suggested name "transcript.json")
 3. Launch the app on a server. E.g. from the folder containing the project directory run
 ```
-cd transcription-app
+cd transcription-buddy
 http-server
 ```
 You should now be able to access the app from your browser 
