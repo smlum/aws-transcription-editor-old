@@ -25,8 +25,8 @@ These instructions will guide you through using the Amazon Transcribe service an
 4. Copy the url link to the file (found in the 'Overview' tab for the file)
 
 #### Using Amazon Transcribe
-* note you may have to set your region to US East (Ohio)) for this stage to work *
-* before starting you can also create a 'custom volcabulary' if there are words used in your audio that AWS is likely to misinterpret (e.g. it often hears 'jesus' instead of 'GIS') *
+*note you may have to set your region to US East (Ohio)) for this stage to work*
+*before starting you can also create a 'custom volcabulary' if there are words used in your audio that AWS is likely to misinterpret (e.g. it often hears 'jesus' instead of 'GIS')*
 1. Navigate to the 'Transcription jobs' page
 2. Create new job
 3. Fill out form with name, audio url (from the S3 file), adding custom volcabulary, set speaker identification to 'Enabled', and data source to 'Amazon defalut bucket'
