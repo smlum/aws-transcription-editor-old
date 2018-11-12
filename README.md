@@ -1,8 +1,8 @@
-# transcription-buddy
+# aws-transcription-editor
 
 An editor for Amazon Transcribe transcripts!
 
-Amazon Transcribe is a free/ cheap way to automate transcription of audio files. While the output is fairly accurate, the service can make mistakes. Amazon usefully provide an output json file which contains confidence levels for every word, but does not provide a service to make use of this information. 
+Amazon Transcribe is a nearly free way to automate transcription of audio files. While the output is fairly accurate, the service can make mistakes. Amazon usefully provide an output json file which contains confidence levels for every word, but does not provide a service to make use of this information. 
 
 Transcription Buddy takes in Amazon Transcribe's output files, and visualises them in a browser-based editor. Low confidence words are highlighted to make the transcription process more efficient. Audio files can be loaded and controlled through the interface to help correct mistakes present.
 
@@ -35,12 +35,12 @@ These instructions will guide you through using the Amazon Transcribe service an
 #### Installing the app
 1. Clone the repository:
 ```
-git clone https://github.com/samFredLumley/transcription-buddy
+git clone https://github.com/samFredLumley/aws-transcription-editor
 ```
 2. In the "json" folder copy the downloaded json file (suggested name "transcript.json")
 3. Launch the app on a server. E.g. from the folder containing the project directory run
 ```
-cd transcription-buddy
+cd aws-transcription-editor
 http-server
 ```
 You should now be able to access the app from your browser 
