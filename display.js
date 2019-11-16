@@ -107,7 +107,9 @@
         };
 
         // print each word
-        text = space + word;
+        text = space + "<div class='tooltip'>" + "<span data-confidence=" + confidence + ">" + word + "</span>" + "<span class='tooltiptext'>" + confidence + "</span>" + "</div>";
+
+        // Add data to each word - confidence, start time, speaker, id
 
         // appeand text to speaker div
         // if confidence if below 90% color word red
