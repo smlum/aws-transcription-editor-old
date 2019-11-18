@@ -106,10 +106,12 @@
           };
         };
 
-        // print each word
-        text = space + "<div class='tooltip'>" + "<span data-confidence=" + confidence + ">" + word + "</span>" + "<span class='tooltiptext'>" + confidence + "</span>" + "</div>";
+        // print each word and add data: confidence, start time, speaker, id
+        spanStartTime = "<span class='word-container' data-time=" + word_start_time + " data-confidence=" + confidence + ">";
+        spanTooltip = "<span class='tooltiptext'>";
+        divTooltip = "<div class='tooltip'>";
+        text = space + divTooltip + spanStartTime + word + "</span>" + spanTooltip + confidence + "<br>" + word_start_time + "</span>" + "</div>";
 
-        // Add data to each word - confidence, start time, speaker, id
 
         // appeand text to speaker div
         // if confidence if below 90% color word red
@@ -137,6 +139,7 @@
 
   };
 
+  // Link 
 
 
   // copy to clipboard

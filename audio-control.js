@@ -4,11 +4,27 @@
 // audio shortcuts infobox
 // toggle shortcuts
 
+
+
 $(document).ready(function() {
 
   var myAudio = document.getElementById("audio");
   var isPlaying = false;
   var playbackRate = 1.0;
+
+
+  $('#content').on ("click", ".word-container", function () {
+    var newTime = $(this).data('time');
+    console.log(newTime);  
+    myAudio.currentTime = newTime;
+    myAudio.play();
+  });
+
+  $('.word-container').click(function() {    
+    // var newTime = $(this).data('time');      
+    console.log('newTime');  
+    // myAudio.currentTime = newTime;
+  });
 
   // toggle play and pause
   function togglePlay() {
