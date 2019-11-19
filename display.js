@@ -19,10 +19,18 @@
   // add infobox
 
 
+
   // load audio from file or url
   function getAudioUrl() {
     var audioUrl = document.getElementById("audioUrl").value;
     document.getElementById("audio").src = audioUrl;
+
+  var wavesurfer = WaveSurfer.create({
+    container: '#waveform',
+    waveColor: 'violet',
+    progressColor: 'purple'
+});
+    wavesurfer.load('audio.mp3');
   }
 
 

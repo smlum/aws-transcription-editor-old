@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="style.css" />
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/wavesurfer.js"></script>
   <!-- <script src="save.js"></script> -->
   <script src="display.js"></script>
   <script src="audio-control.js"></script>
@@ -26,7 +27,7 @@
 
     <!-- input section -->
     Audio url:
-    <input type="text" id="audioUrl" placeholder="Enter audio url" value="https://audio-test-2.s3.ca-central-1.amazonaws.com/Randy_copy.mp3">
+    <input type="text" id="audioUrl" placeholder="Enter audio url" value="audio.mp3">
     <button onclick="getAudioUrl()">Load audio</button>
     Transcript filename:
     <input type="text" id="user-filename" value="test.json">
@@ -40,6 +41,7 @@
     Your browser does not support the audio element.
     </audio>
     </div>
+    <div id="waveform"></div>
 
     <!-- copy to clipboard button -->
     <button class="copy-btn" onClick="CopyToClipboard('content')">Copy to clipboard</button>
