@@ -17,7 +17,7 @@ $(document).ready(function() {
     var newTime = $(this).data('time');
     console.log(newTime);  
     myAudio.currentTime = newTime;
-    myAudio.play();
+    // myAudio.play();
   });
 
   $('.word-container').click(function() {    

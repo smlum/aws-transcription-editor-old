@@ -25,12 +25,15 @@
     var audioUrl = document.getElementById("audioUrl").value;
     document.getElementById("audio").src = audioUrl;
 
-  var wavesurfer = WaveSurfer.create({
-    container: '#waveform',
-    waveColor: 'violet',
-    progressColor: 'purple'
-});
-    wavesurfer.load('audio.mp3');
+  // add waveform visualisation - save for later
+    //   var wavesurfer = WaveSurfer.create({
+    //     container: '#waveform',
+    //     waveColor: 'violet',
+    //     progressColor: 'purple'
+    // });
+    //     wavesurfer.load('audio.mp3');
+
+
   }
 
 
@@ -54,14 +57,17 @@
       for (var i = 0; i < segments.length; i++) {
         speaker = [];
         speaker.push(segments[i].speaker_label);
-        speaker.push(segments[i].start_time);
+        speaker.push(Number(segments[i].start_time));
         speaker_times.push(speaker);
       };
+      console.log(speaker_times);
+      
 
       // assign variables for use in for loop below
       var text = "";
       var speaker_counter = 0;
       var new_speaker = "";
+      var paragraphCounter = 0;
 
       // loop through and append each word
       for (var i = 0; i < results.items.length; i++) {
@@ -74,9 +80,17 @@
         // ensure punctuation characters don't have spaces before them
         if (type == "pronunciation") {
           space = " ";
+          paragraphCounter++;
+          
         } else if (type == "punctuation") {
           space = "";
         };
+
+        // remove unwanted utterances 
+        // TODO add custom words, sort out resulting punctuation mess
+        if (word == "um" | word == "Um") {
+          word = "";
+        }
 
         // make sure first word has a speaker - may be unecessary
         if (i == 0) {
@@ -90,24 +104,25 @@
           //TODO deal with: Uncaught TypeError: Cannot read property '0' of undefined
 
           new_speaker = speaker_times[speaker_counter][0];
-          $('.speaker').before("<span class='speaker-header'>" + speaker_times[speaker_counter][0] + ":</span>");
+          $('.speaker').before("<span class='speaker-header " + speaker_times[speaker_counter][0] + "'>" + speaker_times[speaker_counter][0] + ":</span>");
           $('.speaker').before("<br><br>");
         };
 
         // add line break if speaker changes
         if ((speaker_counter < speaker_times.length) && (i != 0)) {
-          if (Number(speaker_times[speaker_counter][1]) < Number(word_start_time)) {
+          if (speaker_times[speaker_counter][1] - 0.1 < word_start_time) {
             // TODO only display if speaker changes for less than a specified amount of time
             // default minumum time set to 1 sec
-            var min_time = 2;
-            if (speaker_times[speaker_counter + 1] && (Number(speaker_times[speaker_counter + 1][1]) - Number(speaker_times[speaker_counter][1]) > min_time)) {
+            var min_time = 1;
+            if (speaker_times[speaker_counter + 1] && (speaker_times[speaker_counter + 1][1] - speaker_times[speaker_counter][1] > min_time)) {
 
-              // only display if speaker has actually changed
+              // new paragraph if speaker has actually changed
               if (new_speaker != speaker_times[speaker_counter][0]) {
                 new_speaker = speaker_times[speaker_counter][0];
                 $('.speaker').before("<br><br>");
                 $('.speaker').before("<span style='font-weight: bold'>" + speaker_times[speaker_counter][0] + ":</span>");
                 $('.speaker').before("<br><br>");
+                paragraphCounter = 0;
               };
             };
             speaker_counter++;
@@ -121,7 +136,7 @@
         text = space + divTooltip + spanStartTime + word + "</span>" + spanTooltip + confidence + "<br>" + word_start_time + "</span>" + "</div>";
 
 
-        // appeand text to speaker div
+        // append text to speaker div
         // if confidence if below 90% color word red
         if ((confidence > 0.95) || (type == "punctuation")) {
           $('.speaker').before(text);
@@ -131,7 +146,14 @@
           $('.speaker').before("<span class='l90'>" + text + "</span>");
         };
 
-
+        // if it gets to a full stop and the current paragraph is too long, start a new paragraph
+        // TODO let user set the paragraph amount
+        if (type == "punctuation" && (word == "." || word == "!" || word == "?") && paragraphCounter > 40 && new_speaker == speaker_times[speaker_counter][0]) {
+          $('.speaker').before("<br><br>");
+          $('.speaker').before("<span class='speaker-header " + speaker_times[speaker_counter][0] + "'>" + speaker_times[speaker_counter][0] + ":</span>");
+          $('.speaker').before("<br><br>");
+          paragraphCounter = 0;
+        };
 
         //for (var i = 0; i < speaker_times.length; i++) {
         //console.log(speaker_times[i]);
