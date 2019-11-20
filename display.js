@@ -138,6 +138,7 @@
 
         // append text to speaker div
         // if confidence if below 90% color word red
+        // TODO change this to use data attribute and not use another span
         if ((confidence > 0.95) || (type == "punctuation")) {
           $('.speaker').before(text);
         } else if ((confidence > 0.90) || (type == "punctuation")) {
@@ -190,3 +191,5 @@
     // Remove the textarea
     document.body.removeChild(textarea);
   };
+
+  
