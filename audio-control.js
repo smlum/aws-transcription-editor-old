@@ -19,9 +19,8 @@ $(document).ready(function() {
     myAudio.currentTime = newTime;
     // myAudio.play();
 
-    // select clicked word
+    // select the clicked word (ready to be edited)
     var range, selection;
-
     if (window.getSelection) {
       selection = window.getSelection();
       range = document.createRange();
@@ -33,6 +32,8 @@ $(document).ready(function() {
       range.moveToElementText(this);
       range.select();
     }
+    // remove the colour class from the selected word
+
   });
 
   $('.word-container').click(function() {    

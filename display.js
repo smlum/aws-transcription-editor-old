@@ -117,6 +117,7 @@
             if (speaker_times[speaker_counter + 1] && (speaker_times[speaker_counter + 1][1] - speaker_times[speaker_counter][1] > min_time)) {
 
               // new paragraph if speaker has actually changed
+              // change this to use paragraph tags instead of line breaks
               if (new_speaker != speaker_times[speaker_counter][0]) {
                 new_speaker = speaker_times[speaker_counter][0];
                 $('.speaker').before("<br><br>");
@@ -139,6 +140,7 @@
         // append text to speaker div
         // if confidence if below 90% color word red
         // TODO change this to use data attribute and not use another span
+        // TODO change this to use a gradient
         if ((confidence > 0.95) || (type == "punctuation")) {
           $('.speaker').before(text);
         } else if ((confidence > 0.90) || (type == "punctuation")) {
