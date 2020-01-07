@@ -1,5 +1,5 @@
 html {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; 
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";  */
 }
 
 body {
@@ -13,10 +13,6 @@ div:focus {
 }
 
 #page-content {
-  background-color: white;
-  width: 75%;
-  margin: 0 auto;
-  max-width: 50em;
 }
 
 #heading {
@@ -38,12 +34,15 @@ div:focus {
 }
 
 #content {
-  padding-top: 10px;
-  height: 450px;
+  overflow-y:scroll; 
+  height:600px; 
+  position:relative; 
+  border-style:dashed; 
+  border-width: 1px; 
+  border-color:#999; 
+  padding: 8px;
   width: 100%;
-  overflow: scroll;
-  font-family: medium-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 21px;
+  box-sizing: border-box;
 }
 
 
