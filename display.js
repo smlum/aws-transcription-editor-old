@@ -19,6 +19,7 @@
   // add infobox
 
 
+  // 
 
   // load audio from file or url
   function getAudioUrl() {
@@ -36,6 +37,9 @@
 
   }
 
+  // for the audio control (possibly to be deleted eventually)
+  var speakerTimes = [];
+  var transcriptObject = [];
 
   function displayTranscript() {
     // clear any previous text from transcript box
@@ -60,8 +64,10 @@
         speaker.push(Number(segments[i].start_time));
         speaker_times.push(speaker);
       };
-      console.log(speaker_times);
-      
+      // console.log(speaker_times);
+      // saving global variables for use in audio-control.js (poss delete)
+      speakerTimes = speaker_times
+      transcriptObject = results.items;
 
       // assign variables for use in for loop below
       var text = "";
@@ -194,4 +200,3 @@
     document.body.removeChild(textarea);
   };
 
-  

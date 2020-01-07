@@ -1,5 +1,5 @@
 html {
-  font-family: 'Helevetica', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; 
 }
 
 body {
@@ -39,10 +39,11 @@ div:focus {
 
 #content {
   padding-top: 10px;
-  font-size: 14px;
   height: 450px;
   width: 100%;
   overflow: scroll;
+  font-family: medium-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 21px;
 }
 
 

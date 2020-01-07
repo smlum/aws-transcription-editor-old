@@ -8,6 +8,10 @@
 
 $(document).ready(function() {
 
+  // load audio and display transcript on load
+  displayTranscript();
+  getAudioUrl();
+
   var myAudio = document.getElementById("audio");
   var isPlaying = false;
   var playbackRate = 1.0;
@@ -15,7 +19,7 @@ $(document).ready(function() {
 
   $('#content').on ("click", ".word-container", function () {
     var newTime = $(this).data('time');
-    console.log(newTime);  
+    console.log("word start time: " + newTime);  
     myAudio.currentTime = newTime;
     // myAudio.play();
 
@@ -33,7 +37,7 @@ $(document).ready(function() {
       range.select();
     }
     // remove the colour class from the selected word
-
+    
   });
 
   $('.word-container').click(function() {    
@@ -41,6 +45,38 @@ $(document).ready(function() {
     console.log('newTime');  
     // myAudio.currentTime = newTime;
   });
+
+
+  // select the word from the playback
+
+  // 1. get the audio position
+  // Assign an ontimeupdate event to the video element, and execute a function if the current playback position has changed
+
+  var speakerStartTime = 0;
+
+  myAudio.ontimeupdate = function() {myFunction()};
+  function myFunction() {
+    currentTime = myAudio.currentTime;
+    document.getElementById("demo").innerHTML = currentTime;
+    // 2. find the first word said before the time
+    for (var i = 0; i < transcriptObject.length; i++) { 
+      // is the current time bigger than the start time of the word? 
+      // get the speaker times
+      
+      if (currentTime < transcriptObject[i].start_time) {
+        wordTime = transcriptObject[i-1].start_time;
+        console.log("ye" + wordTime);
+        // lookup and highlight the word based on its word time and it's data attribute 
+        if (wordTime) {
+          $("#content span[data-time='" + wordTime + "']").css("background-color", "green");
+        }  
+        break;
+       }  
+      // if (currentTime > )
+    }
+  }
+  
+  
 
   // toggle play and pause
   function togglePlay() {
