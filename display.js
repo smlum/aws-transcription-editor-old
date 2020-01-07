@@ -136,28 +136,28 @@
           };
         };
 
-        // print each word and add data: confidence, start time, speaker, id
+        // add data and tooltip to each word: confidence, start time, speaker, id
         spanStartTime = "<span class='word-container' data-time=" + word_start_time + " data-confidence=" + confidence + ">";
-        spanTooltip = "<span class='tooltiptext'>";
-        divTooltip = "<div class='tooltip'>";
-        text = space + divTooltip + spanStartTime + word + "</span>" + spanTooltip + confidence + "<br>" + word_start_time + "</span>" + "</div>";
+        // comment out line below if using tooltips
+        text = space + spanStartTime + word + "</span>";
 
+        // Uncomment out below to use tooltips
+        // spanTooltip = "<span class='tooltiptext'>";
+        // divTooltip = "<div class='tooltip'>";
+        // text = space + divTooltip + spanStartTime + word + "</span>" + spanTooltip + confidence + "<br>" + word_start_time + "</span>" + "</div>";
 
         // append text to speaker div
-        // if confidence if below 90% color word red
-        // TODO change this to use data attribute and not use another span
-        // TODO change this to use a gradient
-        if ((confidence > 0.95) || (type == "punctuation")) {
-          $('.speaker').before(text);
-        } else if ((confidence > 0.90) || (type == "punctuation")) {
-          $('.speaker').before("<span class='l95'>" + text + "</span>");
-        } else {
-          $('.speaker').before("<span class='l90'>" + text + "</span>");
-        };
-
+        $('.speaker').before(text);
+        var x = word_start_time;
+        console.log(x);
+        
         // if it gets to a full stop and the current paragraph is too long, start a new paragraph
         // TODO let user set the paragraph amount
-        if (type == "punctuation" && (word == "." || word == "!" || word == "?") && paragraphCounter > 40 && new_speaker == speaker_times[speaker_counter][0]) {
+        var max_para_length = 35;
+        if (type == "punctuation" && (word == "." || word == "!" || word == "?") && paragraphCounter > max_para_length && new_speaker == speaker_times[speaker_counter][0]) {
+          // set data for new speaker
+          console.log(x);
+          
           $('.speaker').before("<br><br>");
           $('.speaker').before("<span class='speaker-header " + speaker_times[speaker_counter][0] + "'>" + speaker_times[speaker_counter][0] + ":</span>");
           $('.speaker').before("<br><br>");
