@@ -56,6 +56,23 @@
       var transcript_raw = JSON.stringify(results.transcripts[0].transcript);
 
       // create an array of start times for each speaker
+      // possible reduced version commented out below
+      // var speaker_times = [];
+      // var segments = results.speaker_labels.segments;
+      // for (var i = 0; i < segments.length; i++) {
+      //   speaker = [];
+      //   speakerLabel = segments[i].speaker_label
+      //   // don't push if it's the same one
+      //   if ((i == 0 ) || (segments[i].speaker_label != segments[i-1].speaker_label)) {
+          
+      //     speaker.push(segments[i].speaker_label);
+      //     speaker.push(Number(segments[i].start_time));
+      //     speaker_times.push(speaker);
+      //   } 
+      // };
+      
+
+      // old version of speaker times below
       var speaker_times = [];
       var segments = results.speaker_labels.segments;
       for (var i = 0; i < segments.length; i++) {
@@ -64,39 +81,41 @@
         speaker.push(Number(segments[i].start_time));
         speaker_times.push(speaker);
       };
-      // console.log(speaker_times);
-      // saving global variables for use in audio-control.js (poss delete)
+
+      // saving global variables for use in audio-control.js (poss can delete)
       speakerTimes = speaker_times
+
       transcriptObject = results.items;
 
       // assign variables for use in for loop below
       var text = "";
+      // possibly tidy up speaker counter in future versions
       var speaker_counter = 0;
       var new_speaker = "";
+      // to count how long each para is to avoid too long paras
       var paragraphCounter = 0;
+      var newPara = "";
 
-      // loop through and append each word
+      // loop through json to appeand words and data
       for (var i = 0; i < results.items.length; i++) {
         // get data from JSON string
         word = results.items[i].alternatives[0].content;
         confidence = results.items[i].alternatives[0].confidence;
         word_start_time = results.items[i].start_time;
-        type = results.items[i].type;
+        type = results.items[i].type;        
 
-        // ensure punctuation characters don't have spaces before them
+        // check for punctuation and ensure punctuation doesn't have spaces before them
         if (type == "pronunciation") {
           space = " ";
           paragraphCounter++;
-          
         } else if (type == "punctuation") {
           space = "";
         };
 
         // remove unwanted utterances 
-        // TODO add custom words, sort out resulting punctuation mess
         if (word == "um" | word == "Um") {
           word = "";
-        }
+        }        
 
         // make sure first word has a speaker - may be unecessary
         if (i == 0) {
@@ -104,15 +123,36 @@
           while (Number(speaker_times[speaker_counter][1]) < Number(word_start_time)) {
             speaker_counter++;
           };
-          // changed
-          //speaker_counter = speaker_counter - 1;
 
           //TODO deal with: Uncaught TypeError: Cannot read property '0' of undefined
 
           new_speaker = speaker_times[speaker_counter][0];
-          $('.speaker').before("<span class='speaker-header " + speaker_times[speaker_counter][0] + "'>" + speaker_times[speaker_counter][0] + ":</span>");
-          $('.speaker').before("<br><br>");
+          
+          // $('#speaker').before("<span class='speaker-header'>" + speaker_times[speaker_counter][0] + ":</span>");
+          // $('#speaker').before("<br><br>")
+          // add new para
+          // function takes: timeOfFirstWord, speaker, wordCount
+          newPara = CreateNewPara("0", "Sam", i)
+          $('#speaker').before(newPara)
+          // document.getElementById('speaker').insertAdjacentHTML('beforebegin',
+          // newPara);
+          console.log(newPara);
         };
+
+        // function that adds the content, html and data for new paragraphs and speakers
+        function CreateNewPara(timeOfFirstWord, speaker, wordCount) {
+          var formattedTime = timeOfFirstWord + "format";          
+          if (wordCount > 0) {
+            var endPara = "</p>";
+          } else {
+            endPara = "";
+          };
+          var paraTime = "<p data-time='" + timeOfFirstWord + "' data-tf='" + formattedTime + "'>";
+          var paraSpeaker = "<span class='speaker-header'>" + speaker + "</span>";
+          var paraFormattedTime = "<span class ='timecode'>" + formattedTime + "</span>";
+          var newPara = endPara + paraTime + paraSpeaker + paraFormattedTime;
+          return newPara;
+        }
 
         // add line break if speaker changes
         if ((speaker_counter < speaker_times.length) && (i != 0)) {
@@ -126,9 +166,9 @@
               // change this to use paragraph tags instead of line breaks
               if (new_speaker != speaker_times[speaker_counter][0]) {
                 new_speaker = speaker_times[speaker_counter][0];
-                $('.speaker').before("<br><br>");
-                $('.speaker').before("<span style='font-weight: bold'>" + speaker_times[speaker_counter][0] + ":</span>");
-                $('.speaker').before("<br><br>");
+                $('#speaker').before("</p><br><br>");
+                $('#speaker').before("<span style='font-weight: bold'>" + speaker_times[speaker_counter][0] + ":</span>");
+                $('#speaker').before("<br><br>");
                 paragraphCounter = 0;
               };
             };
@@ -136,10 +176,19 @@
           };
         };
 
-        // add data and tooltip to each word: confidence, start time, speaker, id
+        var endParaTag = "";
+        // end paragraph at the end
+        if (i == results.items.length - 1) {
+          endParaTag = "</p>";
+          
+          console.log(results.items.length);
+        } 
+
+        // add data to each word: confidence, start time, speaker
         spanStartTime = "<span class='word-container' data-time=" + word_start_time + " data-confidence=" + confidence + ">";
         // comment out line below if using tooltips
-        text = space + spanStartTime + word + "</span>";
+        text = space + spanStartTime + word + "</span>" + endParaTag;
+
 
         // Uncomment out below to use tooltips
         // spanTooltip = "<span class='tooltiptext'>";
@@ -147,20 +196,18 @@
         // text = space + divTooltip + spanStartTime + word + "</span>" + spanTooltip + confidence + "<br>" + word_start_time + "</span>" + "</div>";
 
         // append text to speaker div
-        $('.speaker').before(text);
+        $('#speaker').before(text);
         var x = word_start_time;
-        console.log(x);
         
         // if it gets to a full stop and the current paragraph is too long, start a new paragraph
         // TODO let user set the paragraph amount
         var max_para_length = 35;
         if (type == "punctuation" && (word == "." || word == "!" || word == "?") && paragraphCounter > max_para_length && new_speaker == speaker_times[speaker_counter][0]) {
           // set data for new speaker
-          console.log(x);
           
-          $('.speaker').before("<br><br>");
-          $('.speaker').before("<span class='speaker-header " + speaker_times[speaker_counter][0] + "'>" + speaker_times[speaker_counter][0] + ":</span>");
-          $('.speaker').before("<br><br>");
+          $('#speaker').before("<br><br>");
+          $('#speaker').before("<span class='speaker-header " + speaker_times[speaker_counter][0] + "'>" + speaker_times[speaker_counter][0] + ":</span>");
+          $('#speaker').before("<br><br>");
           paragraphCounter = 0;
         };
 
