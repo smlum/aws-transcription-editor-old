@@ -124,8 +124,6 @@
             speaker_counter++;
           };
 
-          //TODO deal with: Uncaught TypeError: Cannot read property '0' of undefined
-
           new_speaker = speaker_times[speaker_counter][0];
           
           // $('#speaker').before("<span class='speaker-header'>" + speaker_times[speaker_counter][0] + ":</span>");
@@ -143,11 +141,11 @@
         function CreateNewPara(timeOfFirstWord, speaker, wordCount) {
           var formattedTime = timeOfFirstWord + "format";          
           if (wordCount > 0) {
-            var endPara = "</p>";
+            var endPara = "</span>";
           } else {
             endPara = "";
           };
-          var paraTime = "<p data-time='" + timeOfFirstWord + "' data-tf='" + formattedTime + "'>";
+          var paraTime = "<span data-time='" + timeOfFirstWord + "' data-tf='" + formattedTime + "'>";
           var paraSpeaker = "<span class='speaker-header'>" + speaker + "</span>";
           var paraFormattedTime = "<span class ='timecode'>" + formattedTime + "</span>";
           var newPara = endPara + paraTime + paraSpeaker + paraFormattedTime;
@@ -163,10 +161,10 @@
             if (speaker_times[speaker_counter + 1] && (speaker_times[speaker_counter + 1][1] - speaker_times[speaker_counter][1] > min_time)) {
 
               // new paragraph if speaker has actually changed
-              // change this to use paragraph tags instead of line breaks
+              // change this to use paragraph tags instead of line breaks if possible
               if (new_speaker != speaker_times[speaker_counter][0]) {
                 new_speaker = speaker_times[speaker_counter][0];
-                $('#speaker').before("</p><br><br>");
+                $('#speaker').before("</span><br><br>");
                 $('#speaker').before("<span style='font-weight: bold'>" + speaker_times[speaker_counter][0] + ":</span>");
                 $('#speaker').before("<br><br>");
                 paragraphCounter = 0;

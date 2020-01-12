@@ -23,7 +23,7 @@ $(document).ready(function() {
     myAudio.currentTime = newTime;
     // myAudio.play();
 
-    // select the clicked word (ready to be edited)
+    // select and highlight the clicked word (ready to be edited)
     var range, selection;
     if (window.getSelection) {
       selection = window.getSelection();
@@ -54,27 +54,46 @@ $(document).ready(function() {
 
   var speakerStartTime = 0;
 
-  myAudio.ontimeupdate = function() {myFunction()};
-  function myFunction() {
-    currentTime = myAudio.currentTime;
-    document.getElementById("demo").innerHTML = currentTime;
-    // 2. find the first word said before the time
-    for (var i = 0; i < transcriptObject.length; i++) { 
-      // is the current time bigger than the start time of the word? 
-      // get the speaker times
-      
-      if (currentTime < transcriptObject[i].start_time) {
-        wordTime = transcriptObject[i-1].start_time;
-        console.log("ye" + wordTime);
-        // lookup and highlight the word based on its word time and it's data attribute 
-        if (wordTime) {
-          $("#content span[data-time='" + wordTime + "']").css("background-color", "green");
-        }  
-        break;
-       }  
-      // if (currentTime > )
+  // myAudio.ontimeupdate = function() {myFunction()};
+
+  var myVar;
+
+  myAudio.onplay = function() {
+    myVar = setInterval(myFunction, 50)
+    
+  }; 
+
+function myFunction() {
+  currentTime = myAudio.currentTime;
+  document.getElementById("demo").innerHTML = currentTime;
+  // 2. find the first word said before the time
+  for (var i = 0; i < transcriptObject.length; i++) { 
+    // is the current time bigger than the start time of the next word? 
+    // get the speaker times
+
+    // if (!transcriptObject[i].start_time) {
+    //   console.log("poop!")
+    // }
+    
+    if (currentTime < transcriptObject[i+1].start_time) {
+      wordTime = transcriptObject[i].start_time;
+      // lookup and highlight the word based on its word time and it's data attribute 
+      if (wordTime) {
+        $("#content span[data-time='" + wordTime + "']").css("color", "black");
+      }  
+      break;
+    } else if ((!transcriptObject[i+1].start_time) && (currentTime < transcriptObject[i+2].start_time)) {
+      wordTime = transcriptObject[i].start_time;
+      // lookup and highlight the word based on its word time and it's data attribute 
+      if (wordTime) {
+        $("#content span[data-time='" + wordTime + "']").css("color", "black");
+      }  
+      break;
     }
+    // if (currentTime > )
   }
+}
+  
   
   
 
@@ -91,6 +110,7 @@ $(document).ready(function() {
     isPlaying = true;
   };
   myAudio.onpause = function() {
+    clearInterval(myVar);
     isPlaying = false;
   };
 
