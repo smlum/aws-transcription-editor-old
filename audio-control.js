@@ -74,20 +74,19 @@ function myFunction() {
     // if (!transcriptObject[i].start_time) {
     //   console.log("poop!")
     // }
-    
-    if (currentTime < transcriptObject[i+1].start_time) {
-      wordTime = transcriptObject[i].start_time;
+    wordTime = transcriptObject[i].start_time;
+    nextWordTime = transcriptObject[i+1].start_time
+    if (currentTime < nextWordTime) {
+      
       // lookup and highlight the word based on its word time and it's data attribute 
       if (wordTime) {
         $("#content span[data-time='" + wordTime + "']").css("color", "black");
       }  
       break;
-    } else if ((!transcriptObject[i+1].start_time) && (currentTime < transcriptObject[i+2].start_time)) {
-      wordTime = transcriptObject[i].start_time;
+    } else if ((!nextWordTime) && (currentTime < transcriptObject[i+2].start_time)) {
       // lookup and highlight the word based on its word time and it's data attribute 
-      if (wordTime) {
         $("#content span[data-time='" + wordTime + "']").css("color", "black");
-      }  
+        $("#content span[data-time='" + wordTime + "']").next("span").css("color", "black");
       break;
     }
     // if (currentTime > )
