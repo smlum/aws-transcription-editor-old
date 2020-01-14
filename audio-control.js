@@ -18,6 +18,10 @@ $(document).ready(function() {
 
 
   $('#content').on ("click", ".word-container", function () {
+    // TODO give it a class of active and remove class from previously active word
+    console.log(this);
+    
+    // reset the audio time
     var newTime = $(this).data('time');
     console.log("word start time: " + newTime);  
     myAudio.currentTime = newTime;
@@ -36,15 +40,20 @@ $(document).ready(function() {
       range.moveToElementText(this);
       range.select();
     }
-    // remove the colour class from the selected word
-    
+    // color previous words black and future words grey
+    // turn the current word black
+    $(this).css({'color':'black'})
+    // turn previous words black and post words grey
+    // note this is inefficient and doesn't colour the punctuation
+    $("span").filter(function() {
+      return $(this).attr("data-time") < newTime;
+    }).css({'color':'black'});
+    $("span").filter(function() {
+      return $(this).attr("data-time") > newTime;
+    }).css({'color':'grey'});
   });
 
-  $('.word-container').click(function() {    
-    // var newTime = $(this).data('time');      
-    console.log('newTime');  
-    // myAudio.currentTime = newTime;
-  });
+
 
 
   // select the word from the playback

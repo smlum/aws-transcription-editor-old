@@ -3,7 +3,6 @@ html {
 }
 
 body {
-  color: #999;
   background-color: white;
   font-weight: 100;
 }
@@ -34,6 +33,7 @@ div:focus {
 }
 
 #content {
+  color: rgb(165, 165, 165);
   overflow-y:scroll; 
   height:600px; 
   position:relative; 
