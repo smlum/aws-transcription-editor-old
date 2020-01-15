@@ -18,8 +18,22 @@
   // add autoscroll playback option
   // add infobox
 
+  function fmtMSS(s){return(s-(s%=60))/60+(9<s?':':':0')+Math.round(s)}
 
-  // 
+  // function that adds the content, html and data for new paragraphs and speakers
+  function CreateNewPara(timeOfFirstWord, speaker, wordCount) {
+    var formattedTime = fmtMSS(timeOfFirstWord)      
+    if (wordCount > 0) {
+      var endPara = "</span>";
+    } else {
+      endPara = "";
+    };
+    var paraTime = "<span data-time='" + timeOfFirstWord + "' data-tf='" + formattedTime + "'>";
+    var paraSpeaker = "<span class='speaker-header'>" + speaker + " </span>";
+    var paraFormattedTime = "<span class ='timecode'>[" + formattedTime + "] </span>";
+    var newPara = endPara + paraTime + paraSpeaker + paraFormattedTime;
+    return newPara;
+  }
 
   // load audio from file or url
   function getAudioUrl() {
@@ -47,8 +61,7 @@
     // document.getElementById("content").innerHTML = "";
 
     // get json transcript filename from user input (default transcript.json)
-    var userFilename = document.getElementById("user-filename").value;
-    var json = 'json/' + userFilename;
+    var json = document.getElementById("user-filename").value;
 
     $.getJSON(json, function(data) {
       // data is the JSON string
@@ -102,6 +115,7 @@
         word = results.items[i].alternatives[0].content;
         confidence = results.items[i].alternatives[0].confidence;
         word_start_time = results.items[i].start_time;
+        next_word_start_time = results.items[i+1].start_time;
         type = results.items[i].type;        
 
         // check for punctuation and ensure punctuation doesn't have spaces before them
@@ -130,29 +144,14 @@
           // $('#speaker').before("<br><br>")
           // add new para
           // function takes: timeOfFirstWord, speaker, wordCount
-          newPara = CreateNewPara("0", "Sam", i)
+          newPara = CreateNewPara(word_start_time, new_speaker, i)
           $('#speaker').before(newPara)
           // document.getElementById('speaker').insertAdjacentHTML('beforebegin',
           // newPara);
           console.log(newPara);
         };
 
-        // function that adds the content, html and data for new paragraphs and speakers
-        function CreateNewPara(timeOfFirstWord, speaker, wordCount) {
-          var formattedTime = timeOfFirstWord + "format";          
-          if (wordCount > 0) {
-            var endPara = "</span>";
-          } else {
-            endPara = "";
-          };
-          var paraTime = "<span data-time='" + timeOfFirstWord + "' data-tf='" + formattedTime + "'>";
-          var paraSpeaker = "<span class='speaker-header'>" + speaker + "</span>";
-          var paraFormattedTime = "<span class ='timecode'>" + formattedTime + "</span>";
-          var newPara = endPara + paraTime + paraSpeaker + paraFormattedTime;
-          return newPara;
-        }
-
-        // add line break if speaker changes
+        // add new para if speaker changes
         if ((speaker_counter < speaker_times.length) && (i != 0)) {
           if (speaker_times[speaker_counter][1] - 0.1 < word_start_time) {
             // TODO only display if speaker changes for less than a specified amount of time
@@ -164,9 +163,11 @@
               // change this to use paragraph tags instead of line breaks if possible
               if (new_speaker != speaker_times[speaker_counter][0]) {
                 new_speaker = speaker_times[speaker_counter][0];
+                
+                newPara = CreateNewPara(word_start_time, new_speaker, i)
                 $('#speaker').before("</span><br><br>");
-                $('#speaker').before("<span style='font-weight: bold'>" + speaker_times[speaker_counter][0] + ":</span>");
-                $('#speaker').before("<br><br>");
+                $('#speaker').before(newPara)
+                // $('#speaker').before("<span class='speaker-header'>" + speaker_times[speaker_counter][0] + ":</span>");
                 paragraphCounter = 0;
               };
             };
@@ -174,18 +175,12 @@
           };
         };
 
-        var endParaTag = "";
-        // end paragraph at the end
-        if (i == results.items.length - 1) {
-          endParaTag = "</p>";
-          
-          console.log(results.items.length);
-        } 
+
 
         // add data to each word: confidence, start time, speaker
         spanStartTime = "<span class='word-container' data-time=" + word_start_time + " data-confidence=" + confidence + ">";
         // comment out line below if using tooltips
-        text = space + spanStartTime + word + "</span>" + endParaTag;
+        text = space + spanStartTime + word + "</span>";
 
 
         // Uncomment out below to use tooltips
@@ -194,20 +189,22 @@
         // text = space + divTooltip + spanStartTime + word + "</span>" + spanTooltip + confidence + "<br>" + word_start_time + "</span>" + "</div>";
 
         // append text to speaker div
-        $('#speaker').before(text);
-        var x = word_start_time;
+        $('#speaker').before(text);        
         
         // if it gets to a full stop and the current paragraph is too long, start a new paragraph
         // TODO let user set the paragraph amount
         var max_para_length = 35;
-        if (type == "punctuation" && (word == "." || word == "!" || word == "?") && paragraphCounter > max_para_length && new_speaker == speaker_times[speaker_counter][0]) {
-          // set data for new speaker
-          
-          $('#speaker').before("<br><br>");
-          $('#speaker').before("<span class='speaker-header " + speaker_times[speaker_counter][0] + "'>" + speaker_times[speaker_counter][0] + ":</span>");
-          $('#speaker').before("<br><br>");
-          paragraphCounter = 0;
-        };
+
+          if (type == "punctuation" && (word == "." || word == "!" || word == "?") && paragraphCounter > max_para_length && new_speaker == speaker_times[speaker_counter][0]) {
+            // set data for new speaker
+            newPara = CreateNewPara(next_word_start_time, new_speaker, i)
+            $('#speaker').before("</span><br><br>");
+            $('#speaker').before(newPara)
+            // $('#speaker').before("<br><br>");
+            // $('#speaker').before("<span class='speaker-header " + speaker_times[speaker_counter][0] + "'>" + speaker_times[speaker_counter][0] + ":</span>");
+            paragraphCounter = 0;
+          };
+        
 
         //for (var i = 0; i < speaker_times.length; i++) {
         //console.log(speaker_times[i]);

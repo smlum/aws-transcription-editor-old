@@ -14,7 +14,12 @@ These instructions will guide you through using the Amazon Transcribe service an
 
 1. Have an [Amazon Web Servives](https://aws.amazon.com/) account 
 2. Have [S3](https://aws.amazon.com/s3/) and [Transcribe](https://aws.amazon.com/transcribe/) set up on your AWS account
-3. Install [http-server](https://www.npmjs.com/package/http-server) or have access to another server
+3. Install [http-server](https://www.npmjs.com/package/http-server)* or use another server
+
+Note: http-server requires node. The recommended way to install node is via the node version manager (nvm):
+
+`curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash`
+`nvm install node`
 
 ### Transcribing with AWS
 

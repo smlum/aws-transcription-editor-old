@@ -29,7 +29,8 @@ div:focus {
 }
 
 .speaker-header {
-  font-weight: bold;
+  /* font-weight: bold; */
+  /* color: black; */
 }
 
 #content {
