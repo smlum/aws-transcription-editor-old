@@ -3,13 +3,12 @@
 $(document).ready(function() {
 
     // load audio 
-    var myAudio = document.getElementById("audio");
+    var myAudio = document.getElementById("hyperplayer");
     var isPlaying = false;
     var playbackRate = 1.0;
     
-    $('#content').on ("click", "span", function () {
-        
-        // select and highlight the clicked word (ready to be edited)
+    // select and highlight the clicked word (ready to be edited)
+    $('#content').on ("click", "span", function () {        
         var range, selection;
         if (window.getSelection) {
         selection = window.getSelection();
@@ -24,58 +23,8 @@ $(document).ready(function() {
         }
     });
     
-    
-    
-    
-    // select the word from the playback
-    
-    // 1. get the audio position
-    // Assign an ontimeupdate event to the video element, and execute a function if the current playback position has changed
-    
-    var speakerStartTime = 0;
-    
-    // myAudio.ontimeupdate = function() {myFunction()};
-    
-    var myVar;
-    
-    myAudio.onplay = function() {
-        myVar = setInterval(myFunction, 50)
-        
-    }; 
-    
-    function myFunction() {
-    currentTime = myAudio.currentTime;
-    document.getElementById("demo").innerHTML = currentTime;
-    // 2. find the first word said before the time
-    for (var i = 0; i < transcriptObject.length; i++) { 
-        // is the current time bigger than the start time of the next word? 
-        // get the speaker times
-    
-        // if (!transcriptObject[i].start_time) {
-        //   console.log("poop!")
-        // }
-        wordTime = transcriptObject[i].start_time;
-        nextWordTime = transcriptObject[i+1].start_time
-        if (currentTime < nextWordTime) {
-          
-        // lookup and highlight the word based on its word time and it's data attribute 
-        if (wordTime) {
-            $("#content span[data-time='" + wordTime + "']").css("color", "black");
-        }  
-        break;
-        } else if ((!nextWordTime) && (currentTime < transcriptObject[i+2].start_time)) {
-        // lookup and highlight the word based on its word time and it's data attribute 
-            $("#content span[data-time='" + wordTime + "']").css("color", "black");
-            $("#content span[data-time='" + wordTime + "']").next("span").css("color", "black");
-        break;
-        }
-        // if (currentTime > )
-    }
-    }
-      
-      
-      
-    
+    // Add keybaord shortcuts
+
     // toggle play and pause
     function togglePlay() {
         if (isPlaying) {
@@ -83,22 +32,17 @@ $(document).ready(function() {
         } else {
         myAudio.play();
         };
-    };
-    
+    };    
     myAudio.onplaying = function() {
         isPlaying = true;
     };
     myAudio.onpause = function() {
-        clearInterval(myVar);
         isPlaying = false;
     };
     
-    //to play on the key A do this(using Jquery):
     document.addEventListener('keydown', function(e) {
         // play and pause audio
         if (e.ctrlKey && e.keyCode == 32 && !(e.shiftKey)) {
-        console.log('skj');
-        
         togglePlay()
         };
         // stop audio (ctrl + space)
@@ -112,6 +56,8 @@ $(document).ready(function() {
             playbackRate = playbackRate + 0.25;
         };
         myAudio.playbackRate = playbackRate;
+        console.log('playback rate: ' + playbackRate);
+        
         };
         // slow down audio (ctrl + shift + <)
         if (e.ctrlKey && e.shiftKey && e.keyCode == 188) {
@@ -119,6 +65,7 @@ $(document).ready(function() {
             playbackRate = playbackRate - 0.25;
         };
         myAudio.playbackRate = playbackRate;
+        console.log('playback rate: ' + playbackRate);
         };
         // skip forward 5 seconds (ctrl + >)
         if (e.ctrlKey && e.keyCode == 190 && !(e.shiftKey)) {
