@@ -28,7 +28,7 @@
     } else {
       endPara = "";
     };
-    var paraTime = "<span data-time='" + timeOfFirstWord + "' data-tf='" + formattedTime + "'>";
+    var paraTime = "<p data-time='" + timeOfFirstWord + "' data-tf='" + formattedTime + "'>";
     var paraSpeaker = "<span class='speaker-header'>" + speaker + " </span>";
     var paraFormattedTime = "<span class ='timecode'>[" + formattedTime + "] </span>";
     var newPara = endPara + paraTime + paraSpeaker + paraFormattedTime;
@@ -165,7 +165,7 @@
                 new_speaker = speaker_times[speaker_counter][0];
                 
                 newPara = CreateNewPara(word_start_time, new_speaker, i)
-                $('#speaker').before("</span><br><br>");
+                $('#speaker').before("</p><br><br>");
                 $('#speaker').before(newPara)
                 // $('#speaker').before("<span class='speaker-header'>" + speaker_times[speaker_counter][0] + ":</span>");
                 paragraphCounter = 0;
