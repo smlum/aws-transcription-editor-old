@@ -2,7 +2,7 @@ var selection = '';
 var params = '';
 var drop;
 
-twttr.widgets.load();
+// twttr.widgets.load();
 
 function addShareTool() {
   if (window.getSelection) {

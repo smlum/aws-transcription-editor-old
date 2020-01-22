@@ -32,7 +32,7 @@ var hyperaudiolite = (function() {
 
     if (!isNaN(parseFloat(start))) {
       player.currentTime = start / 10;
-      player.play();
+      // player.play();
     }
 
     end = parseFloat(getParameter('d')) + parseFloat(start);
@@ -46,7 +46,8 @@ var hyperaudiolite = (function() {
     if (!isNaN(parseFloat(timeSecs))) {
       end = null;
       player.currentTime = timeSecs;
-      player.play();
+      // uncomment if you want audio to play when word is clicked
+      // player.play();
     }
   }
 

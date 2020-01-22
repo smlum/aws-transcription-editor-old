@@ -178,8 +178,6 @@ function displayTranscript() {
                 $('#content').append(newPara);
                 // reset the paragraph word counter
                 paragraphWordCounter = 0;
-                console.log(word);
-                console.log('speaker switch');
                 
                 
                                               

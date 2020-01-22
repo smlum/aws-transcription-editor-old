@@ -40,6 +40,7 @@ $(document).ready(function() {
       range.moveToElementText(this);
       range.select();
     }
+    
     // color previous words black and future words grey
     // turn the current word black
     $(this).css({'color':'black'})
