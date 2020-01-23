@@ -6,6 +6,10 @@ Amazon Transcribe is a (nearly) free way to automate the transcription of audio 
 
 The AWS Transcription Editor takes in Amazon Transcribe's output files, and visualises them in a browser-based editor. Low confidence words are highlighted to make the transcription process more efficient. Audio files can be loaded and controlled through the interface to help correct mistakes present.
 
+Transcription buddy is an interactive transcription editor. It takes in transcription data files from the automated transcription service Amazon Transcribe, and provides a way to easily check/ correct/ code the output alongside the audio.
+
+The app is probably most useful for people trying to transcribe 
+
 ## Getting started
 
 These instructions will guide you through using the Amazon Transcribe service and getting a copy of the project up and running on your local machine.
