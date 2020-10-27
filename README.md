@@ -1,3 +1,5 @@
+This project has been moved to [AWS Transcription buddy](https://github.com/samFredLumley/AWS-transcription-buddy)
+
 # aws-transcription-editor
 
 An editor for Amazon Transcribe transcripts!
