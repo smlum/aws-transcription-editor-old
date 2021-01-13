@@ -1,4 +1,6 @@
-This project has been moved to https://github.com/samFredLumley/scription
+This project has been moved to https://github.com/smlum/scription
+
+
 
 # aws-transcription-editor
 
